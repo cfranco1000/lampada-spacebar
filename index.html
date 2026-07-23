@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interruptor</title>
+  <title>Lampada</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -17,139 +17,79 @@
       font-family: Arial, sans-serif;
       transition: background 0.5s ease;
       user-select: none;
+      overflow: hidden;
     }
 
     body.on {
-      background: #f5f0c8;
-    }
-
-    .switch-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .switch {
-      width: 120px;
-      height: 200px;
       background: #2a2a3e;
-      border-radius: 16px;
+    }
+
+    .cenario {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-      cursor: pointer;
-      transition: all 0.4s ease;
-      border: 2px solid #3a3a5e;
-    }
-
-    body.on .switch {
-      background: #e8e0b0;
-      border-color: #d4c88a;
-      box-shadow: 0 8px 30px rgba(180, 160, 60, 0.3);
-    }
-
-    .switch-lever {
-      width: 60px;
-      height: 100px;
-      background: #555;
-      border-radius: 8px;
       position: relative;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
-    body.on .switch-lever {
-      background: #b8860b;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 15px rgba(184, 134, 11, 0.4);
-    }
-
-    .switch-lever::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
-      background: #777;
-      border-radius: 50%;
-      transition: all 0.3s ease;
-    }
-
-    body.on .switch-lever::before {
-      background: #fff7a1;
-      box-shadow: 0 0 10px #fff7a1;
-    }
-
-    .switch-lever::after {
-      content: "";
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 15px;
+    /* Fio */
+    .fio {
+      width: 3px;
+      height: 80px;
       background: #444;
-      border-radius: 0 0 2px 2px;
     }
 
-    .switch.on .switch-lever {
-      transform: translateY(-20px);
+    /* Lampada */
+    .lampada {
+      position: relative;
+      width: 180px;
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .switch-plate {
+    .bulbo {
+      width: 160px;
+      height: 180px;
+      background: #3a3a4a;
+      border-radius: 50% 50% 35% 35%;
+      transition: all 0.4s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    body.on .bulbo {
+      background: #fff7a1;
+      box-shadow:
+        0 0 80px 40px rgba(255, 247, 161, 0.5),
+        0 0 160px 80px rgba(255, 247, 161, 0.2),
+        inset 0 -20px 40px rgba(255, 200, 50, 0.3);
+    }
+
+    .base-lamp {
       width: 80px;
-      height: 10px;
-      background: #333;
-      border-radius: 2px;
-      margin-top: 5px;
+      height: 25px;
+      background: #555;
+      border-radius: 0 0 10px 10px;
+      margin-top: -8px;
+      position: relative;
+      z-index: 2;
     }
 
-    .label {
-      margin-top: 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #555;
-      transition: color 0.4s ease;
-      letter-spacing: 2px;
+    .rosca {
+      width: 50px;
+      height: 18px;
+      background: #444;
+      border-radius: 0 0 6px 6px;
+      margin-top: -3px;
+      position: relative;
+      z-index: 2;
     }
 
-    body.on .label {
-      color: #b8860b;
-    }
-
-    .hint {
-      margin-top: 30px;
-      color: #666;
-      font-size: 14px;
-      transition: color 0.4s ease;
-    }
-
-    body.on .hint {
-      color: #999;
-    }
-
-    kbd {
-      background: #333;
-      color: #fff;
-      padding: 4px 12px;
-      border-radius: 4px;
-      font-size: 13px;
-      border: 1px solid #555;
-    }
-
-    body.on kbd {
-      background: #ddd;
-      color: #333;
-      border-color: #bbb;
-    }
-
-    .light {
-      position: fixed;
-      top: -200px;
+    /* Brilho */
+    .glow {
+      position: absolute;
+      top: -80px;
       left: 50%;
       transform: translateX(-50%);
       width: 400px;
@@ -158,35 +98,171 @@
       opacity: 0;
       transition: opacity 0.5s ease;
       pointer-events: none;
-      background: radial-gradient(circle, rgba(255, 247, 161, 0.4) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 247, 161, 0.35) 0%, transparent 70%);
+      z-index: 1;
     }
 
-    body.on .light {
+    body.on .glow {
       opacity: 1;
+    }
+
+    /* Raio de luz no chao */
+    .raio {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      background: radial-gradient(ellipse at top, rgba(255, 247, 161, 0.15) 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    body.on .raio {
+      opacity: 1;
+    }
+
+    /* Interruptor */
+    .interruptor-area {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .interruptor {
+      width: 80px;
+      height: 130px;
+      background: #e8e8e8;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      position: relative;
+      border: 2px solid #ccc;
+      transition: background 0.3s ease;
+    }
+
+    .alavanca {
+      width: 40px;
+      height: 60px;
+      background: #f5f5f5;
+      border-radius: 6px;
+      border: 2px solid #ddd;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .alavanca::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 3px;
+      background: #bbb;
+      border-radius: 2px;
+    }
+
+    body.on .alavanca {
+      transform: translateY(-15px);
+      background: #fff7a1;
+      border-color: #e6d870;
+      box-shadow: 0 0 10px rgba(255, 247, 161, 0.5);
+    }
+
+    body.on .alavanca::before {
+      background: #b8860b;
+    }
+
+    .placa {
+      width: 100px;
+      height: 10px;
+      background: #ddd;
+      border-radius: 3px;
+      margin-top: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .label {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #555;
+      transition: color 0.4s ease;
+      letter-spacing: 3px;
+    }
+
+    body.on .label {
+      color: #fff7a1;
+      text-shadow: 0 0 10px rgba(255, 247, 161, 0.5);
+    }
+
+    .hint {
+      margin-top: 15px;
+      color: #555;
+      font-size: 13px;
+      transition: color 0.4s ease;
+    }
+
+    body.on .hint {
+      color: #777;
+    }
+
+    kbd {
+      background: #333;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      border: 1px solid #555;
+    }
+
+    body.on kbd {
+      background: #444;
+      border-color: #555;
     }
   </style>
 </head>
 <body>
-  <div class="light"></div>
+  <div class="raio"></div>
 
-  <div class="switch-container">
-    <div class="switch" id="switch">
-      <div class="switch-lever"></div>
+  <div class="cenario">
+    <div class="fio"></div>
+    <div class="lampada">
+      <div class="glow"></div>
+      <div class="bulbo"></div>
+      <div class="base-lamp"></div>
+      <div class="rosca"></div>
     </div>
-    <div class="switch-plate"></div>
+  </div>
+
+  <div class="interruptor-area">
+    <div class="interruptor" id="interruptor">
+      <div class="alavanca"></div>
+    </div>
+    <div class="placa"></div>
   </div>
 
   <div class="label" id="label">DESLIGADO</div>
-  <div class="hint" id="hint">Pressione <kbd>Espaco</kbd> ou toque para ligar</div>
+  <div class="hint" id="hint">Pressione <kbd>Espaco</kbd> ou toque no interruptor</div>
 
   <script>
     let on = false;
-    const switchEl = document.getElementById("switch");
+    const interruptor = document.getElementById("interruptor");
 
     function toggle() {
       on = !on;
       document.body.classList.toggle("on", on);
-      switchEl.classList.toggle("on", on);
       document.getElementById("label").textContent = on ? "LIGADO" : "DESLIGADO";
     }
 
@@ -197,7 +273,7 @@
       }
     });
 
-    switchEl.addEventListener("click", toggle);
+    interruptor.addEventListener("click", toggle);
 
     if ("ontouchstart" in window) {
       document.getElementById("hint").textContent = "Toque no interruptor para ligar/desligar";
