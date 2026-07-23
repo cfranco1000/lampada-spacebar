@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lampada - Espaco para Acender</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #1a1a2e;
+      font-family: Arial, sans-serif;
+      transition: background 0.5s ease;
+    }
+
+    body.on {
+      background: #f5f0c8;
+    }
+
+    .lampada {
+      position: relative;
+      width: 120px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bulb {
+      width: 100px;
+      height: 120px;
+      background: #555;
+      border-radius: 50% 50% 40% 40%;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    body.on .bulb {
+      background: #fff7a1;
+      box-shadow: 0 0 60px 30px #fff7a1, 0 0 120px 60px rgba(255, 247, 161, 0.4);
+    }
+
+    .base {
+      width: 60px;
+      height: 30px;
+      background: #888;
+      border-radius: 0 0 8px 8px;
+      margin-top: -5px;
+    }
+
+    .socket {
+      width: 40px;
+      height: 15px;
+      background: #666;
+      border-radius: 0 0 4px 4px;
+      margin-top: -2px;
+    }
+
+    .glow {
+      position: absolute;
+      top: -40px;
+      left: -40px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    body.on .glow {
+      opacity: 1;
+      background: radial-gradient(circle, rgba(255, 247, 161, 0.3) 0%, transparent 70%);
+    }
+
+    .cord {
+      width: 3px;
+      height: 60px;
+      background: #444;
+      margin-bottom: -10px;
+    }
+
+    .hint {
+      margin-top: 40px;
+      color: #666;
+      font-size: 14px;
+      transition: color 0.4s ease;
+    }
+
+    body.on .hint {
+      color: #999;
+    }
+
+    kbd {
+      background: #333;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      border: 1px solid #555;
+    }
+
+    body.on kbd {
+      background: #ddd;
+      color: #333;
+      border-color: #bbb;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #555;
+      transition: color 0.4s ease;
+    }
+
+    body.on .status {
+      color: #b8860b;
+    }
+  </style>
+</head>
+<body>
+  <div class="lampada">
+    <div class="cord"></div>
+    <div class="bulb">
+      <div class="glow"></div>
+    </div>
+    <div class="base"></div>
+    <div class="socket"></div>
+  </div>
+
+  <div class="status" id="status">DESLIGADA</div>
+  <div class="hint" id="hint">Pressione <kbd>Espaco</kbd> para ligar/desligar</div>
+
+  <script>
+    let on = false;
+
+    function toggle() {
+      on = !on;
+      document.body.classList.toggle("on", on);
+      document.getElementById("status").textContent = on ? "LIGADA" : "DESLIGADA";
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        toggle();
+      }
+    });
+
+    document.body.addEventListener("click", toggle);
+
+    if ("ontouchstart" in window) {
+      document.getElementById("hint").textContent = "Toque na tela para ligar/desligar";
+    }
+  </script>
+</body>
+</html>
