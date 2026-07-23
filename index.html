@@ -2,56 +2,55 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Lampada</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #1a1a2e;
-      font-family: Arial, sans-serif;
-      transition: background 0.5s ease;
-      user-select: none;
+    html, body {
+      width: 100%;
+      height: 100%;
       overflow: hidden;
     }
 
-    body.on {
-      background: #2a2a3e;
-    }
-
-    .cenario {
+    body {
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
-      position: relative;
+      background: #0a0a14;
+      font-family: Arial, sans-serif;
+      transition: background 0.6s ease;
+      user-select: none;
+      cursor: pointer;
+      padding-top: 0;
+    }
+
+    body.on {
+      background: #1a1a20;
     }
 
     /* Fio */
     .fio {
-      width: 3px;
-      height: 80px;
-      background: #444;
+      width: 2px;
+      height: 60px;
+      background: #333;
     }
 
     /* Lampada */
     .lampada {
       position: relative;
-      width: 180px;
-      height: 220px;
+      width: 200px;
+      height: 240px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
     .bulbo {
-      width: 160px;
-      height: 180px;
-      background: #3a3a4a;
+      width: 180px;
+      height: 200px;
+      background: #2a2a35;
       border-radius: 50% 50% 35% 35%;
       transition: all 0.4s ease;
       position: relative;
@@ -61,15 +60,15 @@
     body.on .bulbo {
       background: #fff7a1;
       box-shadow:
-        0 0 80px 40px rgba(255, 247, 161, 0.5),
-        0 0 160px 80px rgba(255, 247, 161, 0.2),
+        0 0 100px 50px rgba(255, 247, 161, 0.5),
+        0 0 200px 100px rgba(255, 247, 161, 0.2),
         inset 0 -20px 40px rgba(255, 200, 50, 0.3);
     }
 
     .base-lamp {
-      width: 80px;
-      height: 25px;
-      background: #555;
+      width: 90px;
+      height: 28px;
+      background: #444;
       border-radius: 0 0 10px 10px;
       margin-top: -8px;
       position: relative;
@@ -77,9 +76,9 @@
     }
 
     .rosca {
-      width: 50px;
+      width: 55px;
       height: 18px;
-      background: #444;
+      background: #3a3a3a;
       border-radius: 0 0 6px 6px;
       margin-top: -3px;
       position: relative;
@@ -89,16 +88,16 @@
     /* Brilho */
     .glow {
       position: absolute;
-      top: -80px;
+      top: -100px;
       left: 50%;
       transform: translateX(-50%);
-      width: 400px;
-      height: 400px;
+      width: 500px;
+      height: 500px;
       border-radius: 50%;
       opacity: 0;
       transition: opacity 0.5s ease;
       pointer-events: none;
-      background: radial-gradient(circle, rgba(255, 247, 161, 0.35) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 247, 161, 0.4) 0%, transparent 70%);
       z-index: 1;
     }
 
@@ -106,164 +105,38 @@
       opacity: 1;
     }
 
-    /* Raio de luz no chao */
-    .raio {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 300px;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-      background: radial-gradient(ellipse at top, rgba(255, 247, 161, 0.15) 0%, transparent 70%);
-      z-index: 0;
-    }
-
-    body.on .raio {
-      opacity: 1;
-    }
-
-    /* Interruptor */
-    .interruptor-area {
-      margin-top: 50px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 3;
-    }
-
-    .interruptor {
-      width: 80px;
-      height: 130px;
-      background: #e8e8e8;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      position: relative;
-      border: 2px solid #ccc;
-      transition: background 0.3s ease;
-    }
-
-    .alavanca {
-      width: 40px;
-      height: 60px;
-      background: #f5f5f5;
-      border-radius: 6px;
-      border: 2px solid #ddd;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      position: relative;
-    }
-
-    .alavanca::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 24px;
-      height: 3px;
-      background: #bbb;
-      border-radius: 2px;
-    }
-
-    body.on .alavanca {
-      transform: translateY(-15px);
-      background: #fff7a1;
-      border-color: #e6d870;
-      box-shadow: 0 0 10px rgba(255, 247, 161, 0.5);
-    }
-
-    body.on .alavanca::before {
-      background: #b8860b;
-    }
-
-    .placa {
-      width: 100px;
-      height: 10px;
-      background: #ddd;
-      border-radius: 3px;
-      margin-top: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .label {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #555;
-      transition: color 0.4s ease;
-      letter-spacing: 3px;
-    }
-
-    body.on .label {
-      color: #fff7a1;
-      text-shadow: 0 0 10px rgba(255, 247, 161, 0.5);
-    }
-
     .hint {
-      margin-top: 15px;
-      color: #555;
-      font-size: 13px;
-      transition: color 0.4s ease;
+      position: fixed;
+      bottom: 40px;
+      color: #333;
+      font-size: 14px;
+      transition: color 0.5s ease;
+      pointer-events: none;
+      z-index: 10;
     }
 
     body.on .hint {
-      color: #777;
-    }
-
-    kbd {
-      background: #333;
-      color: #fff;
-      padding: 3px 10px;
-      border-radius: 4px;
-      font-size: 12px;
-      border: 1px solid #555;
-    }
-
-    body.on kbd {
-      background: #444;
-      border-color: #555;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <div class="raio"></div>
-
-  <div class="cenario">
-    <div class="fio"></div>
-    <div class="lampada">
-      <div class="glow"></div>
-      <div class="bulbo"></div>
-      <div class="base-lamp"></div>
-      <div class="rosca"></div>
-    </div>
+  <div class="fio"></div>
+  <div class="lampada">
+    <div class="glow"></div>
+    <div class="bulbo"></div>
+    <div class="base-lamp"></div>
+    <div class="rosca"></div>
   </div>
 
-  <div class="interruptor-area">
-    <div class="interruptor" id="interruptor">
-      <div class="alavanca"></div>
-    </div>
-    <div class="placa"></div>
-  </div>
-
-  <div class="label" id="label">DESLIGADO</div>
-  <div class="hint" id="hint">Pressione <kbd>Espaco</kbd> ou toque no interruptor</div>
+  <div class="hint" id="hint">Toque em qualquer lugar</div>
 
   <script>
     let on = false;
-    const interruptor = document.getElementById("interruptor");
 
     function toggle() {
       on = !on;
       document.body.classList.toggle("on", on);
-      document.getElementById("label").textContent = on ? "LIGADO" : "DESLIGADO";
     }
 
     document.addEventListener("keydown", (e) => {
@@ -273,11 +146,11 @@
       }
     });
 
-    interruptor.addEventListener("click", toggle);
-
-    if ("ontouchstart" in window) {
-      document.getElementById("hint").textContent = "Toque no interruptor para ligar/desligar";
-    }
+    document.body.addEventListener("click", toggle);
+    document.body.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      toggle();
+    }, { passive: false });
   </script>
 </body>
 </html>
